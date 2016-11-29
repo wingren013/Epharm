@@ -17,4 +17,9 @@ public class SQLiteJDBC
         }
         System.out.println("Opened database successfully");
     }
+
+    public String getkey(String key)
+    {
+
+    }
 }

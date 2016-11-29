@@ -83,6 +83,29 @@ public class server extends Thread{
             {
                 method = 2;
             }
+
+            if (method == 0)
+            {
+                try{
+                    out.writeBytes(construct_http_header(501, 0));
+                    out.close();
+                    return ;
+                }
+                catch (Exception a){
+                    s("Welp " + a.getLocalizedMessage());
+                }
+            }
+            if (method == 1)
+            {
+                try {
+                    SQLiteJDBC db = new SQLiteJDBC();
+                    //get info from db
+                    out.writeBytes(info);
+                }
+                catch (Exception b) {
+                    s("Danger Will Robinson! " b.getLocalizedMessage());
+                }
+            }
         }
         catch (Exception e)
         {
@@ -96,11 +119,14 @@ public class server extends Thread{
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        try ServerSocket s = new ServerSocket(8000){
+        try ServerSocket s = new ServerSocket(8000)
+        {
 
             //get db
 
 
+        }catch (Exception e){
+            system.err.println("Error " + e.getLocalizedMessage());
         }
     }
 
