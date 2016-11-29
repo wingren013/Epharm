@@ -23,7 +23,7 @@ public class server extends Thread{
 
     private void s(String s2)
     {
-        message_to.send_message_to(s2);
+        System.err.println(s2);
     }
 
     private myserverstarter message_to;
@@ -92,7 +92,7 @@ public class server extends Thread{
 
     private void send_message_to(String message)
     {
-
+        System.out.println(message);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
