@@ -21,26 +21,24 @@ public class server{
     {
         message_to = starter;
         port = listen_port;
+        port = 8000;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         // TODO Auto-generated method stub
-        try(ServerSocket s = new ServerSocket(port)){
+        try(ServerSocket s = new ServerSocket(8000)){
             ExecutorService executor = Executors.newCachedThreadPool();
 
             int i = 1;
             while (true) {
                 Socket incoming = s.accept();
                 System.out.println("Spawning: " + i);
-                //executor.execute(new ServeThread(incoming, m));
-                Runnable r = new ServeThread(port);
+                executor.execute(new ServeThread(port));
+               /* Runnable r = new ServeThread(port);
                 Thread t = new Thread(r);
-                t.start();
+                t.start(); */
                 i++;
             }
-
-
-
         }catch(IOException ex){
             ex.printStackTrace();
         }

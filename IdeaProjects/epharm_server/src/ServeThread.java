@@ -28,7 +28,8 @@ public class ServeThread implements Runnable{
         s("httpserver for epharm");
         try
         {
-            s("Tring to bind to localhost on port " + Integer.toString(port) + "...");
+            s("Trying to bind to localhost on port " + Integer.toString(port));
+            s("...");
             sock = new ServerSocket(port);
         }
         catch (Exception e)
@@ -40,11 +41,14 @@ public class ServeThread implements Runnable{
         while (true)
         {
             s("\n----Waiting for requests----\n");
+            s("DON'T STOP");
             try {
+                s("Don't stop believing");
                 Socket connection = sock.accept();
+                s("Keep on holding on and dreaming");
                 InetAddress client = connection.getInetAddress();
+                s("This code will be debugged someday");
                 s("\n" + client.getHostName() + " connected to the server\n");
-
                 BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 DataOutputStream output = new DataOutputStream(connection.getOutputStream());
 
@@ -55,6 +59,7 @@ public class ServeThread implements Runnable{
                 s("ERROR " + e.getMessage());
                 s("\n" + e.getLocalizedMessage());
             }
+            s("smells so good");
         }
     }
 
@@ -120,7 +125,7 @@ public class ServeThread implements Runnable{
 
     private String makequery(String request)
     {
-        String ret = "SELECT";
+        String ret = "";
 
         for (int i = 0; i < request.length(); i++)
         {
