@@ -73,6 +73,7 @@ public class ServeThread implements Runnable{
                 try{
                     out.writeBytes(construct_http_header(501, 0));
                     out.close();
+                    send_message_to("You fucked up", out);
                     return ;
                 }
                 catch (Exception a){
@@ -89,12 +90,29 @@ public class ServeThread implements Runnable{
                     SQLiteJDBC db = new SQLiteJDBC();
                     String query = makequery(tmp2);
                     info = db.query(query);
-                    info.first();
-                    ret = info.getString(1);
-                    out.writeBytes(ret);
+                    if(info.first()) {
+                        ret = info.getString(1);
+                        out.writeBytes(ret);
+                    }
+                    else {
+                        System.err.println("Error, no first row in result set");
+                        send_message_to("Error, no first row in result set", out);
+                    }
                 }
                 catch (Exception b) {
                     s("Danger Will Robinson! " + b.getLocalizedMessage());
+                }
+            }
+            if (method == 2)
+            {
+                //SET
+                try {
+                    SQLiteJDBC db = new SQLiteJDBC();
+                    String insert = makeinsert(tmp2);
+                    db.insert(insert);
+                }catch (Exception c){
+                    System.err.println("Error " + c.getLocalizedMessage());
+                    send_message_to("Error " + c.getMessage(), out);
                 }
             }
         }
@@ -104,12 +122,35 @@ public class ServeThread implements Runnable{
         }
     }
 
-    private void send_message_to(String message)
+    private void send_message_to(String message, DataOutputStream out)
     {
-        System.out.println(message);
+        System.out.print(message);
+        try {
+            out.writeUTF(message);
+            System.out.println(" SENT TO CLIENT");
+        }catch (Exception e){
+            System.out.println(" NOT SENT TO CLIENT");
+            System.err.println("Error " + e.getLocalizedMessage());
+        }
     }
 
     private String makequery(String request)
+    {
+        String ret = "";
+
+        for (int i = 0; i < request.length(); i++)
+        {
+            if (request.charAt(i) == '[') {
+                i++;
+                while (request.charAt(i) != ']') {
+                    ret.concat(String.valueOf(request.charAt(i)));
+                }
+            }
+        }
+        return ret;
+    }
+
+    private String makeinsert(String request)
     {
         String ret = "";
 

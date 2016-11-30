@@ -44,4 +44,14 @@ public class SQLiteJDBC
         }
         return ret;
     }
+    public static void insert(String insert)
+    {
+        try{
+            Statement statement = connection.createStatement();
+            statement.execute(insert);
+            System.out.println(insert + " successfully executed");
+        }catch (Exception e){
+            System.err.println("Error " + e.getMessage());
+        }
+    }
 }
