@@ -12,9 +12,11 @@ import java.sql.ResultSet;
 public class ServeThread implements Runnable{
 
     private int port;
+    private Socket connection;
 
-    public ServeThread (int portvar){
-        this.port = portvar;
+    public ServeThread (Socket sock, int incport){
+        this.connection = sock;
+        this.port = incport;
     }
 
     private void s(String s2)
@@ -24,30 +26,15 @@ public class ServeThread implements Runnable{
 
     public void run()
     {
-        ServerSocket sock = null;
         s("httpserver for epharm");
-        try
-        {
             s("Trying to bind to localhost on port " + Integer.toString(port));
             s("...");
-            sock = new ServerSocket(port);
-        }
-        catch (Exception e)
-        {
-            s("Fatal Error " + e.getMessage());
-            return ;
-        }
-        s("OK");
         while (true)
         {
             s("\n----Waiting for requests----\n");
-            s("DON'T STOP");
             try {
-                s("Don't stop believing");
-                Socket connection = sock.accept();
-                s("Keep on holding on and dreaming");
+                s("OK");
                 InetAddress client = connection.getInetAddress();
-                s("This code will be debugged someday");
                 s("\n" + client.getHostName() + " connected to the server\n");
                 BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 DataOutputStream output = new DataOutputStream(connection.getOutputStream());
@@ -59,7 +46,6 @@ public class ServeThread implements Runnable{
                 s("ERROR " + e.getMessage());
                 s("\n" + e.getLocalizedMessage());
             }
-            s("smells so good");
         }
     }
 

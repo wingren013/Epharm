@@ -18,7 +18,7 @@ public class Client {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
 
-        try(Socket s = new Socket("localhost", 8000)){
+        try(Socket s = new Socket("localhost", 8080)){
 
 
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
